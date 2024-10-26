@@ -1,28 +1,35 @@
 #!/usr/bin/python3
-''' lockbox module '''
+'''
+Module Docs
+'''
 
 
 def canUnlockAll(boxes):
-    ''' 
-        CanUnockAll
-        ([boxes]): a list of list
     '''
-
-    # initialize a list of unlocked boxes
-    unlocked = [False] * len(boxes)
-    # set the first box oprn
-    unlocked[0] = True
-    # iterate over the boxes
-    for index, box in enumerate(boxes):
-        # check if the box is unlocked
-        if unlocked[index]:
-            # get the keys in the box
-            for index, key in enumerate(box):
-                # set the box with a found key to open
-                if key < len(unlocked):
-                    unlocked[key] = True
-                    # get the keys at the box that has been opened
-                    # set the boxes with the keys to be open
-                    for i in boxes[key]:
-                        unlocked[i] = True
-    return all(unlocked)
+    Function Docs
+    '''
+    if (boxes):
+        numOfBoxes = len(boxes)
+        setOfKeys = {0}
+        setOfKeys.update(boxes[0])
+        visitedBoxes = {0}
+        while True:
+            newBoxVisited = False
+            keys = setOfKeys.copy()
+            # print(f"Set of keys copy = {keys}")
+            for key in keys:
+                # print(f"Key in loop = {key}")
+                if key not in visitedBoxes.copy() and key < numOfBoxes:
+                    # print(f"box opened = {key}")
+                    setOfKeys.update(boxes[key])
+                    visitedBoxes.add(key)
+                    # print(f"set of Keys updated = {setOfKeys}")
+                    # print(f"visitedBoxes updated = {visitedBoxes}")
+                    newBoxVisited = True
+            if not newBoxVisited:
+                break
+        for n in range(numOfBoxes):
+            if n not in setOfKeys:
+                return False
+        return True
+    return False
